@@ -1,6 +1,6 @@
-# https-github.com-vmoreslove-rest-assured-framework
+# rest-assured-framework
 
-Repository: https://github.com/vmoreslove/https-github.com-vmoreslove-rest-assured-framework
+Repository: https://github.com/vmoreslove/rest-assured-framework
 
 Небольшой проект для подготовки к техническому интервью Fullstack QA / Java QA.
 Он показывает не просто `given().when().then()`, а типовую структуру API automation framework:
@@ -12,6 +12,7 @@ Repository: https://github.com/vmoreslove/https-github.com-vmoreslove-rest-assur
 - тестовые данные отдельно от тестов;
 - JSON Schema contract check;
 - локальный mock API на JDK `HttpServer`;
+- отдельные smoke-тесты внешнего API JSONPlaceholder;
 - GitHub Actions pipeline.
 
 ## Зачем локальный API
@@ -33,6 +34,14 @@ mvn clean test
 ```bash
 mvn test -Dtest=UserApiContractTest
 ```
+
+Запуск тестов во внешний публичный API:
+
+```bash
+mvn test -Pexternal -Dtest=ExternalJsonPlaceholderTest
+```
+
+По умолчанию внешний тестовый класс выключен. Это сделано специально: обычный `mvn test` не должен падать из-за интернета, DNS или временной недоступности публичного сервиса.
 
 ## Структура
 
@@ -57,9 +66,15 @@ src/test/java/ru/alfabank/interview/api
 
 - `BaseApiClient` хранит общую REST Assured спецификацию: base URI, JSON headers, логирование.
 - `UserApiClient` скрывает детали эндпоинтов и возвращает типизированные DTO.
+- `PostApiClient` показывает работу с реальным внешним REST API.
 - `UserFlow` показывает слой бизнес-действий: создать пользователя и загрузить его по id.
 - `UserApiContractTest` проверяет HTTP-контракт, JSON Schema и валидацию.
 - `UserBusinessFlowTest` проверяет пользовательский сценарий.
+- `ExternalJsonPlaceholderTest` проверяет внешний API: GET ресурса, фильтрацию query param и POST fake resource.
+
+Про внешний API можно сказать так:
+
+> Я специально разделил локальные и внешние тесты. Локальные тесты стабильны и подходят для обычного CI, а внешний набор запускается отдельным Maven profile `external`. Это снижает flaky-риск: если публичный сервис или сеть временно недоступны, основной test suite не ломается.
 
 ## Что можно добавить в live coding
 
@@ -68,6 +83,7 @@ src/test/java/ru/alfabank/interview/api
 3. Написать тест: создать пользователя, удалить, проверить `404` при повторном получении.
 4. Добавить negative test на создание пользователя с невалидным email.
 5. Вынести логирование request/response в отдельный filter.
+6. Добавить внешний DELETE smoke test и объяснить, почему JSONPlaceholder не сохраняет изменения.
 
 ## Частые вопросы
 

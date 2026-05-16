@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.alfabank.interview</groupId>
-    <artifactId>https-github.com-vmoreslove-rest-assured-framework</artifactId>
+    <artifactId>rest-assured-framework</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>https-github.com-vmoreslove-rest-assured-framework</name>
+    <name>rest-assured-framework</name>
     <description>Small API automation framework for Java QA interview practice</description>
 
     <properties>
@@ -93,6 +93,12 @@
             <id>dev</id>
             <properties>
                 <env>dev</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>external</id>
+            <properties>
+                <externalApi>true</externalApi>
             </properties>
         </profile>
     </profiles>

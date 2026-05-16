@@ -15,6 +15,11 @@ public final class TestConfig {
         return new TestConfig("local", URI.create("http://localhost:" + port));
     }
 
+    public static TestConfig jsonPlaceholder() {
+        String baseUrl = System.getProperty("externalBaseUrl", "https://jsonplaceholder.typicode.com");
+        return new TestConfig("external", URI.create(baseUrl));
+    }
+
     public static TestConfig fromSystemProperties() {
         String env = System.getProperty("env", "local");
         String baseUrl = System.getProperty("baseUrl", "http://localhost:8080");

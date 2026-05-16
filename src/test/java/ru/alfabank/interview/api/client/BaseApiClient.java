@@ -7,6 +7,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import ru.alfabank.interview.api.config.TestConfig;
 
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 
 public abstract class BaseApiClient {
@@ -24,6 +26,17 @@ public abstract class BaseApiClient {
 
     protected Response get(String path) {
         return given(requestSpecification)
+                .when()
+                .get(path)
+                .then()
+                .log().ifValidationFails()
+                .extract()
+                .response();
+    }
+
+    protected Response get(String path, Map<String, ?> queryParams) {
+        return given(requestSpecification)
+                .queryParams(queryParams)
                 .when()
                 .get(path)
                 .then()
