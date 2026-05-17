@@ -78,6 +78,8 @@ src/test/java/ru/alfabank/interview/api
 
 ## Что можно добавить в live coding
 
+Подробный план с шаблонами кода лежит здесь: [docs/live-coding-playbook.md](docs/live-coding-playbook.md).
+
 1. Добавить `DELETE /api/users/{id}` в `LocalUsersApiServer`.
 2. Добавить метод `deleteUser(int id)` в `UserApiClient`.
 3. Написать тест: создать пользователя, удалить, проверить `404` при повторном получении.
